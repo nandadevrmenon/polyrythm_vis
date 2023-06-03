@@ -22,6 +22,5 @@ main{
 #canvas{
   background-color: #1d1d1d;
   width: 80%;
-  height: 80%;
-
+  height: 100%;
 }
