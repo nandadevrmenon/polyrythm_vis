@@ -6,7 +6,7 @@ const startTime = new Date().getTime();
 const draw = () => {
   //get time when rendering canvas
   const currentTime = new Date().getTime();
-  const elapsed = (currentTime-startTime)/1000;
+  const elapsedTime = (currentTime-startTime)/1000;
 
   //initialise pen and canvas
   canvas.width = canvas.clientWidth;
@@ -43,8 +43,8 @@ const draw = () => {
   pen.arc(centre.x, centre.y, radius, 0,2 * Math.PI);
   pen.stroke();
   
-  const angularDistance=0;
-
+  const angularVelocity = Math.PI/2;
+  const angularDistance=(elapsedTime* angularVelocity)%(Math.PI*2);
   //draw dot
   pen.fillStyle="white";
   pen.beginPath();
