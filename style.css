@@ -3,7 +3,7 @@ html{
   height: 100%;
 }
 body{
-  background-color: #0d0d0d;
+  background-color: #081c15;
   color: aliceblue;
   width: 100%;
   height: 80%;
@@ -20,7 +20,7 @@ main{
 }
 
 #canvas{
-  background-color: #1d1d1d;
+  background-color: white;
   width: 80%;
   height: 100%;
 }
