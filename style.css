@@ -20,7 +20,7 @@ main{
 }
 
 #canvas{
-  background-color: white;
+  background-color: inherit;
   width: 80%;
   height: 100%;
 }

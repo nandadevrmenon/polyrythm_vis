@@ -19,7 +19,9 @@ const colors = [
   "#51be97",
   "#58c49d",
   "#8cd2b7"
-]
+].map((color)=>{
+  const audio = new Audio();
+})
 
 
 
@@ -111,7 +113,7 @@ const draw = () => {
     const angularVelocity = Math.PI/4;
     const angularDistance=(elapsedTime* (angularVelocity+(Math.PI/8)*(index+1)/colors.length))%(Math.PI*2); //explain this 
 
-    pen.fillStyle=color;
+    pen.fillStyle="d7ecd9ff";
     pen.beginPath();
     pen.lineWidth = 1;
     dotX = radius * Math.cos(angularDistance) +centre.x;
