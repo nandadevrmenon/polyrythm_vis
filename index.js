@@ -1,4 +1,8 @@
-const colors = [
+const startTime = new Date().getTime();
+let soundEnabled = false;
+document.onvisibilitychange= ()=>{ soundEnabled=false;};
+
+const circles = [
   "#eeefe5",
   "#dde7db",
   "#c6ddcc",
@@ -18,18 +22,32 @@ const colors = [
   "#4cba92",
   "#51be97",
   "#58c49d",
-  "#8cd2b7"
-].map((color)=>{
-  const audio = new Audio();
-})
+  "#8cd2b7",
 
+].map((colour,index)=>{
+  const audio = new Audio("audio/"+index+".mp3");
+  audio.volume = 0.1;
+
+
+  const initialVel = Math.PI/4;
+  const angularVelocity = (initialVel+(Math.PI/8)*(index+1)/20);
+
+  let lastImpactTime = startTime;
+  let nextImpactTime = calculateNextImpactTime(startTime,angularVelocity);
+
+  return{
+    colour,
+    audio,
+    angularVelocity,
+    lastImpactTime,
+    nextImpactTime,
+  }
+})
 
 
 const canvas = document.getElementById("canvas");
 const pen = canvas.getContext("2d");
-
-const startTime = new Date().getTime();
-
+canvas.onclick= ()=>{soundEnabled=true;};
 const draw = () => {
   //get time when rendering canvas
   const currentTime = new Date().getTime();
@@ -60,7 +78,6 @@ const draw = () => {
       x:canvas.width*0.5+(canvas.height/2),
       y: 0.5 * canvas.height,
     }
-    console.log(start,end);
   }
 
 
@@ -82,10 +99,11 @@ const draw = () => {
 
   totalSpace = length/2;
 
-  colors.forEach((color,index)=>{
+  circles.forEach((circle,index)=>{
     //draw circle
-    const radius = smallestRadius+((totalSpace/colors.length-1)*index);
-    pen.strokeStyle=color;
+    pen.globalAlpha = calculateDynamicOpacity(currentTime, circle.lastImpactTime, 0.15, 0.65, 1000);
+    const radius = smallestRadius+((totalSpace/circles.length-1)*index);
+    pen.strokeStyle=circle.colour;
     pen.beginPath();
     pen.lineWidth = 1;
     pen.arc(centre.x, centre.y, radius, 0,2 * Math.PI);
@@ -109,9 +127,10 @@ const draw = () => {
     pen.fill();
     
     pen.globalAlpha=1;
+
+
     //draw moving dot
-    const angularVelocity = Math.PI/4;
-    const angularDistance=(elapsedTime* (angularVelocity+(Math.PI/8)*(index+1)/colors.length))%(Math.PI*2); //explain this 
+    const angularDistance=(elapsedTime* (circle.angularVelocity))%(Math.PI*2); //explain this 
 
     pen.fillStyle="d7ecd9ff";
     pen.beginPath();
@@ -120,6 +139,13 @@ const draw = () => {
     dotY = radius * Math.sin(angularDistance) +centre.y;
     pen.arc(dotX,dotY, length * 0.006, 0,2 * Math.PI);
     pen.fill();
+
+    if(currentTime > circle.nextImpactTime) {
+      circle.lastImpactTime =circle.nextImpactTime;
+      circle.nextImpactTime = calculateNextImpactTime(circle.nextImpactTime,circle.angularVelocity);
+      if(soundEnabled)  circle.audio.play();
+    }
+
   });
 
 
@@ -129,3 +155,13 @@ requestAnimationFrame(draw);
 draw();
 
 
+function calculateNextImpactTime(currentImpactTime,angularVelocity){
+  return currentImpactTime+((Math.PI)/angularVelocity)*1000;
+}
+
+function calculateDynamicOpacity(currentTime, lastImpactTime, baseOpacity, maxOpacity, duration){
+  const timeSinceImpact = currentTime - lastImpactTime,
+        percentage = Math.min(timeSinceImpact / duration, 1),
+        opacityDelta = maxOpacity - baseOpacity;
+  return maxOpacity - (opacityDelta * percentage);
+}
