@@ -1,28 +1,28 @@
-const startTime = new Date().getTime();
+const startTime = new Date().getTime();   //initial Time on page load 
 let soundEnabled = false;
 document.onvisibilitychange= ()=>{ soundEnabled=false;};
 
 const circles = [
-  "#eeefe5",
-  "#dde7db",
-  "#c6ddcc",
-  "#a4cdb7",
-  "#8fc3aa",
-  "#71b697",
-  "#6eb696",
-  "#49a582",
-  "#3ea17d",
-  "#1e9970",
-  "#269d75",
-  "#279f76",
-  "#30a47b",
-  "#3bac84",
-  "#3cac84",
-  "#42b189",
-  "#4cba92",
-  "#51be97",
-  "#58c49d",
-  "#8cd2b7",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
+  "#c5bbbc",
 
 ].map((colour,index)=>{
   const audio = new Audio("audio/"+index+".mp3");
@@ -110,7 +110,7 @@ const draw = () => {
     pen.stroke();
     
     // draw stationary dots on both sides of circle
-    pen.fillStyle="#cfffc8";
+    pen.fillStyle="#f6eff0";
     pen.globalAlpha=0.40;
     pen.beginPath();
     pen.lineWidth = 1;
@@ -132,7 +132,7 @@ const draw = () => {
     //draw moving dot
     const angularDistance=(elapsedTime* (circle.angularVelocity))%(Math.PI*2); //explain this 
 
-    pen.fillStyle="d7ecd9ff";
+    pen.fillStyle="c5bbbc";
     pen.beginPath();
     pen.lineWidth = 1;
     dotX = radius * Math.cos(angularDistance) +centre.x;
@@ -156,12 +156,12 @@ draw();
 
 
 function calculateNextImpactTime(currentImpactTime,angularVelocity){
-  return currentImpactTime+((Math.PI)/angularVelocity)*1000;
+  return currentImpactTime+((Math.PI)/angularVelocity)*1000;//next impact = firstImpact + (distance/speed)
 }
 
 function calculateDynamicOpacity(currentTime, lastImpactTime, baseOpacity, maxOpacity, duration){
   const timeSinceImpact = currentTime - lastImpactTime,
-        percentage = Math.min(timeSinceImpact / duration, 1),
+        percentage = Math.min(timeSinceImpact / duration, 1),//gets timeSince impact as a fraction with duration or 1 whichever is less
         opacityDelta = maxOpacity - baseOpacity;
   return maxOpacity - (opacityDelta * percentage);
 }
