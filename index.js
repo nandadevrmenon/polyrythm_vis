@@ -1,6 +1,5 @@
 const startTime = new Date().getTime();   //initial Time on page load 
 let soundEnabled = false;
-document.onvisibilitychange= ()=>{ soundEnabled=false;};
 
 const circles = [
   "#c5bbbc",
@@ -42,12 +41,13 @@ const circles = [
     lastImpactTime,
     nextImpactTime,
   }
-})
+})    //returns a list of circles with all their info
 
 
 const canvas = document.getElementById("canvas");
 const pen = canvas.getContext("2d");
-canvas.onclick= ()=>{soundEnabled=true;};
+
+
 const draw = () => {
   //get time when rendering canvas
   const currentTime = new Date().getTime();
@@ -153,6 +153,27 @@ requestAnimationFrame(draw);
 };
 
 draw();
+
+const enableSoundButton = document.getElementById("enableSoundPrompt");
+const disableSoundButton = document.getElementById("disableSoundPrompt");
+
+enableSoundButton.onclick = ()=>{ 
+  soundEnabled=true;
+  enableSoundButton.classList.add("hide");
+  disableSoundButton.classList.remove("hide");
+}
+
+disableSoundButton.onclick = ()=>{ 
+  soundEnabled=false;
+  enableSoundButton.classList.remove("hide");
+  disableSoundButton.classList.add("hide");
+}
+
+document.onvisibilitychange= ()=>{ 
+  soundEnabled = false;
+  enableSoundButton.classList.remove("hide");
+  disableSoundButton.classList.add("hide");
+};
 
 
 function calculateNextImpactTime(currentImpactTime,angularVelocity){
