@@ -1,47 +1,23 @@
 const startTime = new Date().getTime();   //initial Time on page load 
 let soundEnabled = false;
-
-const circles = [
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-  "#c5bbbc",
-
-].map((colour,index)=>{
+const circles = [];
+for(let index = 0 ; index <20 ; index++){
   const audio = new Audio("audio/"+index+".mp3");
   audio.volume = 0.1;
-
-
+  
   const initialVel = Math.PI/4;
   const angularVelocity = (initialVel+(Math.PI/8)*(index+1)/20);
 
   let lastImpactTime = startTime;
   let nextImpactTime = calculateNextImpactTime(startTime,angularVelocity);
 
-  return{
-    colour,
+  circles[index] = {
     audio,
     angularVelocity,
     lastImpactTime,
     nextImpactTime,
   }
-})    //returns a list of circles with all their info
+}   //returns a list of circles with all their info
 
 
 const canvas = document.getElementById("canvas");
@@ -103,7 +79,7 @@ const draw = () => {
     //draw circle
     pen.globalAlpha = calculateDynamicOpacity(currentTime, circle.lastImpactTime, 0.15, 0.65, 1000);
     const radius = smallestRadius+((totalSpace/circles.length-1)*index);
-    pen.strokeStyle=circle.colour;
+    pen.strokeStyle="#c5bbbc";
     pen.beginPath();
     pen.lineWidth = 1;
     pen.arc(centre.x, centre.y, radius, 0,2 * Math.PI);

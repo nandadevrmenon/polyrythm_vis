@@ -53,17 +53,18 @@ header{
   padding: 10px 30px;
   border-radius: 15px;
   background-color: #ffffff3d;
-  border: 1px solid #ffffff06;
+  border: 1px solid #ffffff3d;
   backdrop-filter: blur(30px);
   color: #ffffffcc;
   cursor: pointer;
   opacity: 1;
   visibility: visible;
-  transition: visibility 400.1ms 0s, opacity 400ms linear;
+  transition: visibility 400.1ms, opacity 400ms linear, background-color 100ms;
 }
 
 .glass-button:hover {
-  background-color: #ffffff33;
+  background-color: #ffffff23;
+  transition: background-color 100ms;
 }
 
 .glass-button.hide{
