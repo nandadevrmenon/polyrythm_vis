@@ -29,6 +29,7 @@ header{
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  font-size: 20px;
 }
 
 #canvas{
@@ -49,6 +50,7 @@ header{
 
 
 .glass-button {
+  font-family: "Quicksand";
   display: inline-block;
   padding: 10px 30px;
   border-radius: 15px;
